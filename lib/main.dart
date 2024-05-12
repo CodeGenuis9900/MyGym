@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mygym/src/presentation/pages/welcome.page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,15 +18,15 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(),
       routes: {
-        '/home': (context) => MyHomePage(),
+        '/home': (context) => const WelcomePage(),
         '/page1': (context) => Page1(),
         '/page2': (context) => Page2(),
         // Add more routes as needed
       },
     );
   }
-
 }
+
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -50,21 +51,21 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: Text('Home'),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
-              title: Text('Page 1'),
+              title: const Text('Page 1'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/page1');
               },
             ),
             ListTile(
-              title: Text('Page 2'),
+              title: const Text('Page 2'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/page2');
@@ -86,9 +87,9 @@ class Page1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page 1'),
+        title: const Text('Page 1'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Page 1 Content'),
       ),
     );
