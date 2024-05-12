@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Page1 extends StatelessWidget {
+class Page2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page 1'),
+        title: Text('Page 2'),
       ),
       body: Center(
-        child: Text('Page 1 Content'),
+        child: Text('Page 2 Content'),
       ),
     );
   }
