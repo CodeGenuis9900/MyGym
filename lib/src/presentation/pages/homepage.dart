@@ -46,7 +46,7 @@ class MyHomePage extends StatelessWidget {
             ),
             ListTile(
               title: Text('Workout'),
-              onTap: (){
+              onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/workout');
               },
