@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: MyHomePage(),
+      home: const WelcomePage(),
       routes: {
-        '/home': (context) => const WelcomePage(),
+        '/home': (context) => MyHomePage(),
         '/page1': (context) => Page1(),
         '/page2': (context) => Page2(),
         '/workout':(context) => WorkoutPage(),
