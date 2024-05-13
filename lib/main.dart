@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mygym/src/presentation/pages/WorkoutPage.dart';
 import 'package:mygym/src/presentation/pages/homepage.dart';
 import 'package:mygym/src/presentation/pages/page1.dart';
 import 'package:mygym/src/presentation/pages/page2.dart';
+import 'package:mygym/src/presentation/pages/welcome.page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,14 +29,9 @@ class MyApp extends StatelessWidget {
         '/home': (context) => MyHomePage(),
         '/page1': (context) => Page1(),
         '/page2': (context) => Page2(),
-        '/workout':(context) => WorkoutPage(),
+        '/workout': (context) => WorkoutPage(),
         // Add more routes as needed
       },
     );
   }
-
 }
-
-
-
-
