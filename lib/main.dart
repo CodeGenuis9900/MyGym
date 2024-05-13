@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mygym/src/presentation/pages/welcome.page.dart';
 import 'package:mygym/src/presentation/pages/WorkoutPage.dart';
 import 'package:mygym/src/presentation/pages/homepage.dart';
 import 'package:mygym/src/presentation/pages/page1.dart';
@@ -21,17 +22,12 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(),
       routes: {
-        '/home': (context) => MyHomePage(),
+        '/home': (context) => const WelcomePage(),
         '/page1': (context) => Page1(),
         '/page2': (context) => Page2(),
-        '/workout':(context) => WorkoutPage(),
+        '/workout': (context) => WorkoutPage(),
         // Add more routes as needed
       },
     );
   }
-
 }
-
-
-
-
