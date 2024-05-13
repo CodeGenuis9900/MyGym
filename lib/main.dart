@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mygym/src/presentation/pages/WorkoutPage.dart';
 import 'package:mygym/src/presentation/pages/homepage.dart';
 import 'package:mygym/src/presentation/pages/page1.dart';
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
       title: 'Sidebar Menu',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.robotoCondensedTextTheme(
+          Theme.of(context).textTheme,
+        ),
       ),
       home: MyHomePage(),
       routes: {
