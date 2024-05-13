@@ -5,13 +5,13 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -55,7 +55,7 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Home Page'),
       ),
     );

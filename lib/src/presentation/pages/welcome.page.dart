@@ -35,7 +35,7 @@ class WelcomePage extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/page1');
+                    Navigator.pushNamed(context, '/home');
                   },
                   icon: Icon(Icons.arrow_forward),
                   label: Text('Next'),
