@@ -25,14 +25,9 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const WelcomePage(),
         '/page1': (context) => Page1(),
         '/page2': (context) => Page2(),
-        '/workout':(context) => WorkoutPage(),
+        '/workout': (context) => WorkoutPage(),
         // Add more routes as needed
       },
     );
   }
 }
-
-
-
-
-
