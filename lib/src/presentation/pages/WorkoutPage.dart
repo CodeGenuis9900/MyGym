@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/WorkoutCard.dart';
+import 'AddWorkoutPage.dart';
 
 class WorkoutPage extends StatelessWidget {
   get controller => null;
@@ -62,7 +63,10 @@ class WorkoutPage extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    // Add functionality to add new workout card
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddWorkoutPage()),
+                    );
                   },
                 ),
               ],
