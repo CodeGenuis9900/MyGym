@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mygym/src/data/repositories/DatabaseHelper.dart';
 import 'package:mygym/src/presentation/pages/WorkoutPage.dart';
 import 'package:mygym/src/presentation/pages/homepage.dart';
 import 'package:mygym/src/presentation/pages/page1.dart';
@@ -7,7 +8,9 @@ import 'package:mygym/src/presentation/pages/page2.dart';
 import 'package:mygym/src/presentation/pages/welcome.page.dart';
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper.instance.database;
   runApp(const MyApp());
 }
 
