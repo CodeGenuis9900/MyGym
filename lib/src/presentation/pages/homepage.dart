@@ -5,7 +5,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('My gym'),
       ),
       drawer: Drawer(
         child: ListView(
@@ -24,28 +24,28 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: Text('Home'),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
-              title: Text('Page 1'),
+              title: const Text('Page 1'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/page1');
               },
             ),
             ListTile(
-              title: Text('Page 2'),
+              title: const Text('Page 2'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/page2');
               },
             ),
             ListTile(
-              title: Text('Workout'),
+              title: const Text('Workout'),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/workout');
@@ -55,8 +55,29 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: const Center(
-        child: Text('Home Page'),
+      body: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage(
+                      'assets/profile_pic.jpg'), // Add your profile photo here
+                ),
+                SizedBox(width: 20),
+                Text(
+                  'Hello',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          // Add other content of the page below if needed
+        ],
       ),
     );
   }
