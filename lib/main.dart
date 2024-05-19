@@ -3,19 +3,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mygym/src/data/repositories/DatabaseHelper.dart';
 import 'package:mygym/src/data/repositories/DatabaseProvider.dart';
 import 'package:mygym/src/presentation/pages/WorkoutPage.dart';
-import 'package:mygym/src/presentation/pages/homepage.dart';
+import 'package:mygym/src/presentation/pages/home.page.dart';
 import 'package:mygym/src/presentation/pages/page1.dart';
 import 'package:mygym/src/presentation/pages/page2.dart';
 import 'package:mygym/src/presentation/pages/welcome.page.dart';
 import 'package:provider/provider.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.instance.database;
   runApp(
     ChangeNotifierProvider(
-      create: (context) => DatabaseProvider(), // Provide an instance of your database provider
+      create: (context) =>
+          DatabaseProvider(), // Provide an instance of your database provider
       child: const MyApp(),
     ),
   );
