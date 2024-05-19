@@ -17,7 +17,15 @@ import '../models/Session.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [Session,Muscle, Workout,WorkoutExercise,SessionMuscle,Exercise])
+@DriftDatabase(
+    tables:
+    [Session,
+      Muscle,
+      Workout,
+      WorkoutExercise,
+      SessionMuscle,
+      Exercise]
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mygym/src/data/models/Workout.dart';
 import 'package:mygym/src/data/repositories/database.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/WorkoutCard.dart';
 import 'AddWorkoutPage.dart';
 
 class WorkoutPage extends StatefulWidget {
+
   @override
   State<WorkoutPage> createState() => _WorkoutPageState();
 }
@@ -14,9 +16,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
   get controller => null;
 
   get onChanged => null;
-  AppDatabase? appDatabase;
+  late AppDatabase appDatabase;
   @override
   Widget build(BuildContext context) {
+    appDatabase = Provider.of<AppDatabase>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('All Workouts'),
@@ -68,11 +71,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddWorkoutPage()),
+                      MaterialPageRoute(builder: (context) => const AddWorkoutPage()),
                     );
                   },
                 ),
@@ -92,8 +95,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         ),
                       );
                     }
-                  }else{
-                    return WorkoutListUI(workoutList!);
+                    else{
+                      return workoutListUI(workoutList);
+                    }
                   }
 
                 }
@@ -119,10 +123,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
       ));
   }
   Future<List<WorkoutData>>? _getWorkoutData() {
-    return appDatabase?.allWorkouts;
+    return appDatabase.allWorkouts;
   }
 
-  Widget WorkoutListUI(List<WorkoutData> workoutList) {
+  Widget workoutListUI(List<WorkoutData> workoutList) {
     return ListView.builder(
       itemCount: workoutList.length, // Replace with actual number of workouts
       itemBuilder: (BuildContext context, int index) {
