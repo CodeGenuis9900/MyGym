@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:drift/drift.dart' as dr;
+
+
+import 'package:mygym/src/data/models/Workout.dart';
+
+import '../../data/repositories/database.dart';
 
 class AddWorkoutPage extends StatefulWidget {
   @override
@@ -12,12 +18,24 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
   TextEditingController exercises7DaysController = TextEditingController();
   TextEditingController exercises30DaysController = TextEditingController();
   TextEditingController caloriesBurned7DaysController = TextEditingController();
+  AppDatabase? appDatabase;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Workout'),
+        actions:  <Widget>[
+          Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  _saveWorkout();
+                },
+                child: const Text('save'),
+              )
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -66,15 +84,17 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                // Add functionality to save the workout
-              },
-              child: const Text('Save'),
-            ),
           ],
         ),
       ),
     );
   }
+
+   Future<int>? _saveWorkout() {
+     return appDatabase?.addWorkout(
+       const WorkoutCompanion(
+         name: dr.Value("rida")
+      )
+     );
+   }
 }
