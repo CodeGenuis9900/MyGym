@@ -10,7 +10,7 @@ class WelcomePage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
                     'images/background_image.jpg'), // Replace 'background_image.jpg' with your image asset
@@ -23,7 +23,7 @@ class WelcomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Welcome dear athlete',
                   style: TextStyle(
                     fontSize: 40,
@@ -31,23 +31,24 @@ class WelcomePage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/home');
                   },
-                  icon: Icon(Icons.arrow_forward),
-                  label: Text('Next'),
+                  icon: const Icon(Icons.arrow_forward),
+                  label: const Text('Next'),
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    textStyle: TextStyle(fontSize: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
+                    textStyle: const TextStyle(fontSize: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
-                SizedBox(height: 50), // Adjust spacing as needed
+                const SizedBox(height: 50), // Adjust spacing as needed
               ],
             ),
           ),

@@ -4,12 +4,11 @@ import 'package:mygym/src/data/repositories/DatabaseHelper.dart';
 import 'package:mygym/src/data/repositories/DatabaseProvider.dart';
 import 'package:mygym/src/data/repositories/database.dart';
 import 'package:mygym/src/presentation/pages/WorkoutPage.dart';
-import 'package:mygym/src/presentation/pages/homepage.dart';
+import 'package:mygym/src/presentation/pages/home.page.dart';
 import 'package:mygym/src/presentation/pages/page1.dart';
 import 'package:mygym/src/presentation/pages/page2.dart';
 import 'package:mygym/src/presentation/pages/welcome.page.dart';
 import 'package:provider/provider.dart';
-
 
 void main() async {
   runApp(const MyApp());
