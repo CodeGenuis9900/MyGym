@@ -5,7 +5,7 @@ import 'package:mygym/src/bloc/workout.bloc.dart';
 import 'package:mygym/src/bloc/event/workout.event.dart';
 import 'package:mygym/src/data/repositories/database.dart';
 import 'package:mygym/src/presentation/pages/workout.page.dart';
-import 'package:mygym/src/presentation/pages/homepage.dart';
+import 'package:mygym/src/presentation/pages/home.page.dart';
 import 'package:mygym/src/presentation/pages/page1.dart';
 import 'package:mygym/src/presentation/pages/page2.dart';
 import 'package:mygym/src/presentation/pages/welcome.page.dart';
