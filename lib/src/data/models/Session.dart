@@ -5,5 +5,7 @@ import 'package:mygym/src/data/models/Workout.dart';
 class Session extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get workoutId => integer().nullable().references(Workout, #id)();
-  DateTimeColumn get date => dateTime()();
+  DateTimeColumn get startTime => dateTime()();
+  DateTimeColumn get endTime => dateTime()();
+
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mygym/src/data/repositories/DatabaseHelper.dart';
-import 'package:mygym/src/data/repositories/DatabaseProvider.dart';
+import 'package:mygym/src/bloc/workout.bloc.dart';
+import 'package:mygym/src/bloc/event/workout.event.dart';
 import 'package:mygym/src/data/repositories/database.dart';
-import 'package:mygym/src/presentation/pages/WorkoutPage.dart';
+import 'package:mygym/src/presentation/pages/workout.page.dart';
 import 'package:mygym/src/presentation/pages/homepage.dart';
 import 'package:mygym/src/presentation/pages/page1.dart';
 import 'package:mygym/src/presentation/pages/page2.dart';
@@ -12,8 +13,21 @@ import 'package:provider/provider.dart';
 
 
 void main() async {
-  runApp(const MyApp());
+  final appDatabase = AppDatabase();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<AppDatabase>.value(value: appDatabase),
+        BlocProvider(
+          create: (context) => WorkoutBloc(appDatabase)..add(LoadWorkouts()),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,9 +35,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (BuildContext context) => AppDatabase(),
-      child: MaterialApp(
+    return MaterialApp(
         title: 'Sidebar Menu',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -39,7 +51,6 @@ class MyApp extends StatelessWidget {
           '/workout': (context) => WorkoutPage(),
           // Add more routes as needed
         },
-      ),
-    );
+      );
   }
 }
