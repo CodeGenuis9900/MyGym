@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'dart:io';
 import 'package:drift/native.dart';
 import 'package:mygym/src/data/models/Exercise.dart';
+import 'package:mygym/src/data/models/Exercise.item.dart';
 import 'package:mygym/src/data/models/Muscle.dart';
 import 'package:mygym/src/data/models/Exercice.item.muscle.dart';
 import 'package:mygym/src/data/models/Workout.dart';
@@ -24,7 +25,8 @@ part 'database.g.dart';
       Workout,
       WorkoutExercise,
       ExerciseItemMuscle,
-      Exercise]
+      Exercise,
+    ExerciseItem]
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());

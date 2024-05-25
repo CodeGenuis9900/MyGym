@@ -197,7 +197,7 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+To build Database use this : dart run build_runner build
 
 <!-- LICENSE -->
 ## License
