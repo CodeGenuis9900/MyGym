@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/workout.bloc.dart';
 import '../../bloc/event/workout.event.dart';
 import '../../bloc/state/workout.state.dart';
-import '../widgets/WorkoutCard.dart';
-import 'add.workout.page.dart';
+import '../widgets/add.workout.modal.dart';
+import '../widgets/workout.card.dart';
 
 
 class WorkoutPage extends StatefulWidget {
@@ -14,6 +14,12 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
+  late TextEditingController searchController;
+  @override
+  void initState() {
+    searchController = TextEditingController();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +44,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   ),
                 ],
               ),
-              child: const Padding(
+              child:  Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: searchController,
+                  onChanged: (value) {
+                    context.read<WorkoutBloc>().add(SearchWorkouts(value));
+                  },
+                  decoration: const InputDecoration(
                     hintText: 'Search...',
                     border: InputBorder.none,
                     prefixIcon: Icon(Icons.search),
@@ -66,9 +76,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AddWorkoutPage()),
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => const AddWorkoutModal(),
                     ).then((_) {
                       context.read<WorkoutBloc>().add(LoadWorkouts());
                     });

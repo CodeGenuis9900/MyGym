@@ -11,6 +11,7 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   WorkoutBloc(this.appDatabase) : super(WorkoutsLoading()) {
     on<LoadWorkouts>(_onLoadWorkouts);
     on<AddWorkout>(_onAddWorkout);
+    on<SearchWorkouts>(_onSearchWorkouts);
   }
 
   Future<void> _onLoadWorkouts(LoadWorkouts event, Emitter<WorkoutState> emit) async {
@@ -26,6 +27,14 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
     try {
       await appDatabase.addWorkout(WorkoutCompanion(name: dr.Value(event.name)));
       add(LoadWorkouts());
+    } catch (_) {
+      emit(WorkoutsError());
+    }
+  }
+  Future<void> _onSearchWorkouts(SearchWorkouts event, Emitter<WorkoutState> emit) async {
+    try {
+      final workouts = await appDatabase.searchWorkoutsByName(event.query);
+      emit(WorkoutsLoaded(workouts));
     } catch (_) {
       emit(WorkoutsError());
     }

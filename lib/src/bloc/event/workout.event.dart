@@ -7,3 +7,9 @@ class AddWorkout extends WorkoutEvent {
 
   AddWorkout(this.name);
 }
+class SearchWorkouts extends WorkoutEvent {
+  final String query;
+
+  SearchWorkouts(this.query);
+
+}

@@ -38,6 +38,9 @@ class AppDatabase extends _$AppDatabase {
   Future<int> addWorkout(WorkoutCompanion entry) {
     return into(workout).insert(entry);
   }
+  Future<List<WorkoutData>> searchWorkoutsByName(String query) {
+    return (select(workout)..where((t) => t.name.contains(query))).get();
+  }
   // Insert initial data
   Future<void> insertInitialMuscles(Batch batch) async {
     List<Map<String, dynamic>> initialMuscles = [
