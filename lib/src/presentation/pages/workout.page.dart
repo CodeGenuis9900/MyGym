@@ -102,6 +102,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                       itemCount: workouts.length,
                       itemBuilder: (BuildContext context, int index) {
                         return WorkoutCard(
+                          id : workouts[index].id,
                           name: workouts[index].name,
                           numberOfExercises: 3,
                           muscleColors: const [Colors.red, Colors.blue, Colors.green],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../data/repositories/database.dart';
 import '../pages/wourkout.detail.page.dart';
 
 class WorkoutCard extends StatelessWidget {
@@ -9,6 +10,7 @@ class WorkoutCard extends StatelessWidget {
   final int exercises7Days;
   final int exercises30Days;
   final int caloriesBurned7Days;
+  final int id;
 
   WorkoutCard({
     required this.name,
@@ -17,6 +19,7 @@ class WorkoutCard extends StatelessWidget {
     required this.exercises7Days,
     required this.exercises30Days,
     required this.caloriesBurned7Days,
+    required this.id,
   });
 
   @override
@@ -25,7 +28,7 @@ class WorkoutCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => WorkoutDetailPage(workoutName: name,)),
+          MaterialPageRoute(builder: (context) => WorkoutDetailPage(workout: WorkoutData(id:id,name:name),)),
         );
       },
       child: Card(
@@ -37,7 +40,7 @@ class WorkoutCard extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -45,7 +48,7 @@ class WorkoutCard extends StatelessWidget {
               SizedBox(height: 8.0),
               Text(
                 'Number of Exercises: $numberOfExercises',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
               ),

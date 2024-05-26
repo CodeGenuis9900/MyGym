@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mygym/src/presentation/pages/exercise.list.page.dart';
+import 'package:mygym/src/data/repositories/database.dart';
 import 'package:mygym/src/presentation/pages/session.page.dart';
 
 import '../widgets/tab.bar.with.pages.widget.dart';
 
 class WorkoutDetailPage extends StatefulWidget {
-  final String workoutName;
+  final WorkoutData workout;
 
-  const WorkoutDetailPage({super.key, required this.workoutName});
+  const WorkoutDetailPage({super.key, required this.workout});
 
   @override
   State<WorkoutDetailPage> createState() => _WorkoutDetailPageState();
@@ -18,7 +19,7 @@ class _WorkoutDetailPageState extends State<WorkoutDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.workoutName),
+        title: Text(widget.workout.name),
       ),
       body: TabBarWithPages(
         tabNames: const ['Overview', 'Exercises', 'Muscles', 'Sessions'],
@@ -26,7 +27,7 @@ class _WorkoutDetailPageState extends State<WorkoutDetailPage> {
           const Center(child: Text('Overview')),
           ExerciseListPage(),
           const Center(child: Text('Muscles')),
-          const SessionPage()
+          SessionPage(workoutId: widget.workout.id)
         ],
       ),
     );
