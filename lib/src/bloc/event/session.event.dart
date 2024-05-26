@@ -3,9 +3,15 @@ abstract class SessionEvent {}
 class LoadSessions extends SessionEvent {}
 
 class AddSession extends SessionEvent {
-  final String name;
+  final int workoutId;
+  final DateTime startTime;
+  final DateTime endTime;
+  AddSession(this.workoutId, this.startTime, this.endTime);
+}
+class LoadSessionByWorkoutId extends SessionEvent {
+  final int workoutId;
 
-  AddSession(this.name);
+  LoadSessionByWorkoutId(this.workoutId);
 }
 class SearchSessions extends SessionEvent {
   final String query;

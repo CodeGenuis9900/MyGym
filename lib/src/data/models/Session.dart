@@ -7,5 +7,4 @@ class Session extends Table {
   IntColumn get workoutId => integer().nullable().references(Workout, #id)();
   DateTimeColumn get startTime => dateTime()();
   DateTimeColumn get endTime => dateTime()();
-
 }

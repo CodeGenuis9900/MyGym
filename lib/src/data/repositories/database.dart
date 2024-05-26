@@ -45,6 +45,10 @@ class AppDatabase extends _$AppDatabase {
   Future<int> addSession(SessionCompanion entry) {
     return into(session).insert(entry);
   }
+  Future<List<SessionData>> getSessionsByWorkoutId(int workoutId) {
+    return (select(session)..where((t) => t.workoutId.equals(workoutId))).get();
+  }
+
 
   // Insert initial data
   Future<void> insertInitialMuscles(Batch batch) async {
@@ -83,6 +87,8 @@ class AppDatabase extends _$AppDatabase {
       });
     },
   );
+
+
 }
 
 LazyDatabase _openConnection() {
