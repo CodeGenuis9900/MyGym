@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mygym/src/utils/AppColors.dart';
+import 'package:mygym/src/utils/app.colors.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;

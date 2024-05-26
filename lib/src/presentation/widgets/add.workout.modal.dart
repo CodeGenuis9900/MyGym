@@ -45,10 +45,10 @@ class _AddWorkoutModalState extends State<AddWorkoutModal> {
                 ),
               ),
               const SizedBox(height: 16.0),
-               CustomInputField(
+                CustomInputField(
                 controller: nameController,
                 labelText: 'Workout Name',
-                leftIcon: Icons.sports_outlined,
+                leftIcon: Icons.accessibility_sharp,
 
               ),
               /*TextFormField(
@@ -62,7 +62,7 @@ class _AddWorkoutModalState extends State<AddWorkoutModal> {
                   Navigator.pop(context);
                 },
                 text: 'Save',
-                outlined: false // Custom border radius
+                outlined: true,// Custom border radius
               ),
               const SizedBox(height: 16.0),
             ],
