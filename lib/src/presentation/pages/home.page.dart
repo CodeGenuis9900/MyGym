@@ -53,8 +53,14 @@ class MyHomePage extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/workout');
               },
-            )
-            // Add more list tiles for additional pages
+            ),
+            ListTile(
+              title: const Text('Add exercise'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/add-exercise');
+              },
+            ),
           ],
         ),
       ),
