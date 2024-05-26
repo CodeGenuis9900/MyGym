@@ -110,7 +110,6 @@ class _AddExercisePageState extends State<AddExercisePage> {
   }
 
   void _saveExercise() {
-    // Implement the action to be performed on form submission.
     print(
         'Title: $_selectedTitle, Points: $_points, Repetitions: $_repetitions');
   }
