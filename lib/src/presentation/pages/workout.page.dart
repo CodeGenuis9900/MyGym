@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/workout.bloc.dart';
 import '../../bloc/event/workout.event.dart';
 import '../../bloc/state/workout.state.dart';
-import '../widgets/add.workout.modal.dart';
-import '../widgets/workout.card.dart';
+import '../model/add.workout.modal.dart';
+import '../card/workout.card.dart';
 
 
 class WorkoutPage extends StatefulWidget {

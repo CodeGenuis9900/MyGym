@@ -4,7 +4,7 @@ import 'package:mygym/src/presentation/widgets/rounded.input.dart';
 
 import '../../bloc/event/workout.event.dart';
 import '../../bloc/workout.bloc.dart';
-import 'custom.button.dart';
+import '../widgets/custom.button.dart';
 
 
 class AddWorkoutModal extends StatefulWidget {
