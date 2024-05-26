@@ -23,9 +23,9 @@ class _WorkoutDetailPageState extends State<WorkoutDetailPage> {
       body: TabBarWithPages(
         tabNames: const ['Overview', 'Exercises', 'Muscles', 'Sessions'],
         pages:  [
-          Center(child: Text('Overview')),
-          Center(child: Text('Exercises')),
-          Center(child: Text('Muscles')),
+          const Center(child: Text('Overview')),
+          const Center(child: Text('Exercises')),
+          const Center(child: Text('Muscles')),
           SessionPage(workoutId: widget.workout.id)
         ],
       ),

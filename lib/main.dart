@@ -24,9 +24,6 @@ void main() async {
         BlocProvider(
           create: (context) => WorkoutBloc(appDatabase)..add(LoadWorkouts()),
         ),
-        BlocProvider<SessionBloc>(
-          create: (context) => SessionBloc(appDatabase)..add(LoadSessions()),
-        ),
       ],
       child: MyApp(),
     ),

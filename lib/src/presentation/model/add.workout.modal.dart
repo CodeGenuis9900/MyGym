@@ -62,7 +62,7 @@ class _AddWorkoutModalState extends State<AddWorkoutModal> {
                   Navigator.pop(context);
                 },
                 text: 'Save',
-                outlined: true,// Custom border radius
+                outlined: false,// Custom border radius
               ),
               const SizedBox(height: 16.0),
             ],

@@ -9,6 +9,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
   final AppDatabase appDatabase;
 
   SessionBloc(this.appDatabase) : super(SessionsLoading()) {
+    on<LoadSessionByWorkoutId>(_onLoadSessionsByWorkoutId);
     on<LoadSessions>(_onLoadSessions);
     on<AddSession>(_onAddSession);
   }
@@ -30,6 +31,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
           endTime: event.endTime
         ),
       );
+
       add(LoadSessionByWorkoutId(event.workoutId)); // Reload sessions after adding a new one
     } catch (_) {
       emit(SessionsError());

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/workout.bloc.dart';
 import '../../bloc/event/workout.event.dart';
+import '../widgets/toast.widget.dart';
 
 class AddWorkoutPage extends StatefulWidget {
   const AddWorkoutPage({super.key});
@@ -30,8 +31,24 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
             padding: const EdgeInsets.only(right: 20.0),
             child: InkWell(
               onTap: () {
-                context.read<WorkoutBloc>().add(AddWorkout(nameController.text));
-                Navigator.pop(context);
+                try{
+                  context.read<WorkoutBloc>().add(AddWorkout(nameController.text));
+                  ToastManager.show(
+                    context,
+                    title: 'Success',
+                    description: 'Operation completed successfully',
+                    status: ToastStatus.success,
+                  );
+
+                  Navigator.pop(context);
+                } catch (_) {
+                  ToastManager.show(
+                    context,
+                    title: 'Error',
+                    description: 'An error occurred',
+                    status: ToastStatus.error,
+                  );
+                }
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),

@@ -6,6 +6,7 @@ import '../../bloc/event/session.event.dart';
 import '../../utils/app.colors.dart';
 import '../../bloc/session.bloc.dart';
 import '../widgets/custom.button.dart';
+import '../widgets/toast.widget.dart';
 
 class AddSessionPage extends StatefulWidget {
   final int workoutId;
@@ -111,14 +112,31 @@ class _AddSessionPageState extends State<AddSessionPage> {
           onPressed: () {
             final startDateTime = _combineDateWithTime(_selectedDay, _startTime);
             final endDateTime = _combineDateWithTime(_selectedDay, _endTime);
-            context.read<SessionBloc>().add(
+            try{
+              context.read<SessionBloc>().add(
               AddSession(
                 widget.workoutId,
                 startDateTime,
                 endDateTime,
               ),
             );
-            Navigator.pop(context); // Return to the previous screen
+              ToastManager.show(
+                context,
+                title: 'Success',
+                description: 'Operation completed successfully',
+                status: ToastStatus.success,
+              );
+
+              Navigator.pop(context);
+            } catch (_) {
+              ToastManager.show(
+                context,
+                title: 'Error',
+                description: 'An error occurred',
+                status: ToastStatus.error,
+              );
+            }
+            // Return to the previous screen
           },
           text: "Save",
           outlined: false,

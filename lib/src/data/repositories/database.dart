@@ -6,6 +6,7 @@ import 'package:drift/native.dart';
 import 'package:mygym/src/data/models/Exercise.dart';
 import 'package:mygym/src/data/models/Exercise.item.dart';
 import 'package:mygym/src/data/models/Muscle.dart';
+import 'package:mygym/src/data/models/Session.dart';
 import 'package:mygym/src/data/models/Exercice.item.muscle.dart';
 import 'package:mygym/src/data/models/Workout.dart';
 import 'package:mygym/src/data/models/WorkoutExercise.dart';
@@ -14,7 +15,6 @@ import 'package:path/path.dart' as p;
 import 'package:sqlite3/sqlite3.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
-import '../models/Session.dart';
 
 part 'database.g.dart';
 
