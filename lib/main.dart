@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mygym/src/bloc/event/session.event.dart';
+import 'package:mygym/src/bloc/session.bloc.dart';
 import 'package:mygym/src/bloc/workout.bloc.dart';
 import 'package:mygym/src/bloc/event/workout.event.dart';
 import 'package:mygym/src/data/repositories/database.dart';
@@ -21,6 +23,9 @@ void main() async {
         Provider<AppDatabase>.value(value: appDatabase),
         BlocProvider(
           create: (context) => WorkoutBloc(appDatabase)..add(LoadWorkouts()),
+        ),
+        BlocProvider<SessionBloc>(
+          create: (context) => SessionBloc(appDatabase)..add(LoadSessions()),
         ),
       ],
       child: MyApp(),

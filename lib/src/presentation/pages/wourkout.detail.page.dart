@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mygym/src/presentation/pages/session.page.dart';
 
 import '../widgets/tab.bar.with.pages.widget.dart';
 
@@ -24,7 +25,7 @@ class _WorkoutDetailPageState extends State<WorkoutDetailPage> {
           Center(child: Text('Overview')),
           Center(child: Text('Exercises')),
           Center(child: Text('Muscles')),
-          Center(child: Text('Sessions')),
+          SessionPage()
         ],
       ),
     );
