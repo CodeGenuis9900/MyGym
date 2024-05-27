@@ -1,9 +1,10 @@
-import 'package:mygym/src/bloc/state/workout.state.dart';
 import 'package:mygym/src/data/repositories/database.dart';
 
 abstract class ExerciseState {}
 
-class ExerciseLoaded extends WorkoutState {
+class ExerciseLoading extends ExerciseState {}
+
+class ExerciseLoaded extends ExerciseState {
   final List<ExerciseData> exercises;
 
   ExerciseLoaded(this.exercises);
