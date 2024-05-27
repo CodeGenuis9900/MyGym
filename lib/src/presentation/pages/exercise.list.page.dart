@@ -25,12 +25,8 @@ class Exercise {
 class ExerciseListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Exercise List App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ExerciseListScreen(),
+    return Scaffold(
+      body: ExerciseListScreen(),
     );
   }
 }
@@ -67,16 +63,13 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
 
   void _editExercise(int index) {
     setState(() {
-      exercises[index].repetitions += 5; // Just an example update
+      exercises[index].repetitions += 5;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Exercise List'),
-      ),
       body: ListView.builder(
         itemCount: exercises.length,
         itemBuilder: (context, index) {

@@ -27,7 +27,8 @@ class _SessionPageState extends State<SessionPage> {
     final workoutId = (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
     return Scaffold(
       body: BlocProvider(
-        create: (context) => SessionBloc(context.read<AppDatabase>())..add(LoadSessionByWorkoutId(workoutId)),
+        create: (context) => SessionBloc(context.read<AppDatabase>())
+          ..add(LoadSessionByWorkoutId(workoutId)),
         child: BlocBuilder<SessionBloc, SessionState>(
           builder: (context, state) {
             if (state is SessionsLoading) {
@@ -45,8 +46,12 @@ class _SessionPageState extends State<SessionPage> {
                       onTap: () {
                         // Handle session card tap
                       },
-                      title: sessions[index].startTime.toString(), // Corrected data display
-                      subtitle: sessions[index].endTime.toString(), // Corrected data display
+                      title: sessions[index]
+                          .startTime
+                          .toString(), // Corrected data display
+                      subtitle: sessions[index]
+                          .endTime
+                          .toString(), // Corrected data display
                     );
                   },
                 );
@@ -58,7 +63,8 @@ class _SessionPageState extends State<SessionPage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 30.0, right: 20.0, left: 20.0,top: 10),
+        padding: const EdgeInsets.only(
+            bottom: 30.0, right: 20.0, left: 20.0, top: 10),
         child: CustomButton(
           onPressed: () async {
              Navigator.push(
