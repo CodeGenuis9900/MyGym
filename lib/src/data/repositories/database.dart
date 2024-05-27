@@ -9,25 +9,21 @@ import 'package:mygym/src/data/models/Muscle.dart';
 import 'package:mygym/src/data/models/Session.dart';
 import 'package:mygym/src/data/models/Exercice.item.muscle.dart';
 import 'package:mygym/src/data/models/Workout.dart';
-import 'package:mygym/src/data/models/WorkoutExercise.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite3/sqlite3.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
-
 part 'database.g.dart';
 
-@DriftDatabase(
-    tables:
-    [Session,
-      Muscle,
-      Workout,
-      WorkoutExercise,
-      ExerciseItemMuscle,
-      Exercise,
-    ExerciseItem]
-)
+@DriftDatabase(tables: [
+  Session,
+  Muscle,
+  Workout,
+  ExerciseItemMuscle,
+  Exercise,
+  ExerciseItem
+])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
@@ -38,17 +34,29 @@ class AppDatabase extends _$AppDatabase {
   Future<int> addWorkout(WorkoutCompanion entry) {
     return into(workout).insert(entry);
   }
+
   Future<List<WorkoutData>> searchWorkoutsByName(String query) {
     return (select(workout)..where((t) => t.name.contains(query))).get();
   }
+
   Future<List<SessionData>> get allSessions => select(session).get();
   Future<int> addSession(SessionCompanion entry) {
     return into(session).insert(entry);
   }
+
   Future<List<SessionData>> getSessionsByWorkoutId(int workoutId) {
     return (select(session)..where((t) => t.workoutId.equals(workoutId))).get();
   }
 
+  Future<List<ExerciseData>> get allExercises => select(exercise).get();
+  Future<int> addExercise(ExerciseCompanion input) {
+    return into(exercise).insert(input);
+  }
+
+  Future<List<ExerciseData>> getExercisesByWorkoutId(int workoutId) {
+    return (select(exercise)..where((e) => e.workoutId.equals(workoutId)))
+        .get();
+  }
 
   // Insert initial data
   Future<void> insertInitialMuscles(Batch batch) async {
@@ -69,26 +77,27 @@ class AppDatabase extends _$AppDatabase {
       {'name': 'Calves', 'color': '006400'}, // DarkGreen
       {'name': 'Abdominals', 'color': '00FA9A'}, // MediumSpringGreen
       {'name': 'Obliques', 'color': '00FF7F'}, // SpringGreen
-      {'name': 'Lower Back', 'color': '2E8B57'}  // SeaGreen
+      {'name': 'Lower Back', 'color': '2E8B57'} // SeaGreen
     ];
     for (var initmuscle in initialMuscles) {
-      batch.insert(muscle, MuscleCompanion(
-        name: Value(initmuscle['name']),
-        color: Value(initmuscle['color']),
-      ));
+      batch.insert(
+          muscle,
+          MuscleCompanion(
+            name: Value(initmuscle['name']),
+            color: Value(initmuscle['color']),
+          ));
     }
   }
+
   @override
   MigrationStrategy get migration => MigrationStrategy(
-    onCreate: (Migrator m) async {
-      await m.createAll();
-      await batch((batch) async {
-        await insertInitialMuscles(batch);
-      });
-    },
-  );
-
-
+        onCreate: (Migrator m) async {
+          await m.createAll();
+          await batch((batch) async {
+            await insertInitialMuscles(batch);
+          });
+        },
+      );
 }
 
 LazyDatabase _openConnection() {
