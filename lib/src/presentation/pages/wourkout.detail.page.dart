@@ -27,7 +27,7 @@ class _WorkoutDetailPageState extends State<WorkoutDetailPage> {
           const Center(child: Text('Overview')),
           ExerciseListPage(),
           const Center(child: Text('Muscles')),
-          SessionPage(workoutId: widget.workout.id)
+          SessionPage()
         ],
       ),
     );

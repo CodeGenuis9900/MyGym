@@ -3,21 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../bloc/event/session.event.dart';
+import '../../bloc/state/workout.shared.id.state.dart';
+import '../../bloc/workout.shared.id.bloc.dart';
 import '../../utils/app.colors.dart';
 import '../../bloc/session.bloc.dart';
 import '../widgets/custom.button.dart';
 import '../widgets/toast.widget.dart';
 
 class AddSessionPage extends StatefulWidget {
-  final int workoutId;
 
-  const AddSessionPage({super.key, required this.workoutId});
+  const AddSessionPage({super.key});
 
   @override
   _AddSessionPageState createState() => _AddSessionPageState();
 }
 
 class _AddSessionPageState extends State<AddSessionPage> {
+
   late DateTime _selectedDay;
   late TimeOfDay _startTime;
   late TimeOfDay _endTime;
@@ -36,6 +38,7 @@ class _AddSessionPageState extends State<AddSessionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final workoutId = (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Session'),
@@ -109,17 +112,18 @@ class _AddSessionPageState extends State<AddSessionPage> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 30.0, right: 20.0, left: 20.0),
         child: CustomButton(
-          onPressed: () {
+          onPressed: () async {
             final startDateTime = _combineDateWithTime(_selectedDay, _startTime);
             final endDateTime = _combineDateWithTime(_selectedDay, _endTime);
             try{
-              context.read<SessionBloc>().add(
-              AddSession(
-                widget.workoutId,
-                startDateTime,
-                endDateTime,
-              ),
-            );
+               context.read<SessionBloc>().add(
+                AddSession(
+                  workoutId,
+                  startDateTime,
+                  endDateTime,
+                ),
+              );
+
               ToastManager.show(
                 context,
                 title: 'Success',
@@ -132,7 +136,7 @@ class _AddSessionPageState extends State<AddSessionPage> {
               ToastManager.show(
                 context,
                 title: 'Error',
-                description: 'An error occurred',
+                description: 'An error occurred' ,
                 status: ToastStatus.error,
               );
             }

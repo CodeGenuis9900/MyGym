@@ -46,12 +46,5 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     }
   }
 
-  // Future<void> _onAddSession(AddSession event, Emitter<SessionState> emit) async {
-  //   try {
-  //     await appDatabase.addSession(SessionCompanion(name: dr.Value(event.name)));
-  //     add(LoadSessions());
-  //   } catch (_) {
-  //     emit(SessionsError());
-  //   }
-  // }
+
 }

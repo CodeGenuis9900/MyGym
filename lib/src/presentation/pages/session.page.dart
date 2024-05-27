@@ -7,17 +7,24 @@ import 'package:mygym/src/utils/app.colors.dart';
 import '../../bloc/event/session.event.dart';
 import '../../bloc/session.bloc.dart';
 import '../../bloc/state/session.state.dart';
+import '../../bloc/state/workout.shared.id.state.dart';
+import '../../bloc/workout.shared.id.bloc.dart';
 import '../../data/repositories/database.dart';
 import '../card/session.card.dart';
 
-class SessionPage extends StatelessWidget {
-  final int workoutId;
+class SessionPage extends StatefulWidget {
 
   // Constructor should take workoutId as a required parameter
-  const SessionPage({super.key, required this.workoutId});
+  const SessionPage({super.key});
 
   @override
+  State<SessionPage> createState() => _SessionPageState();
+}
+
+class _SessionPageState extends State<SessionPage> {
+  @override
   Widget build(BuildContext context) {
+    final workoutId = (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
     return Scaffold(
       body: BlocProvider(
         create: (context) => SessionBloc(context.read<AppDatabase>())..add(LoadSessionByWorkoutId(workoutId)),
@@ -53,11 +60,11 @@ class SessionPage extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 30.0, right: 20.0, left: 20.0,top: 10),
         child: CustomButton(
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddSessionPage(workoutId: workoutId),
+                builder: (context) => const AddSessionPage(),
               ),
             );
           },

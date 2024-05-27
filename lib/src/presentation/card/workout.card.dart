@@ -24,14 +24,7 @@ class WorkoutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => WorkoutDetailPage(workout: WorkoutData(id:id,name:name),)),
-        );
-      },
-      child: Card(
+    return  Card(
         margin: EdgeInsets.all(8.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -99,7 +92,6 @@ class WorkoutCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 

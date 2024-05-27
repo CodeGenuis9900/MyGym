@@ -5,6 +5,7 @@ import 'package:mygym/src/bloc/event/session.event.dart';
 import 'package:mygym/src/bloc/session.bloc.dart';
 import 'package:mygym/src/bloc/workout.bloc.dart';
 import 'package:mygym/src/bloc/event/workout.event.dart';
+import 'package:mygym/src/bloc/workout.shared.id.bloc.dart';
 import 'package:mygym/src/data/repositories/database.dart';
 import 'package:mygym/src/presentation/pages/workout.page.dart';
 import 'package:mygym/src/presentation/pages/add.exercise.page.dart';
@@ -21,6 +22,8 @@ void main() async {
     MultiProvider(
       providers: [
         Provider<AppDatabase>.value(value: appDatabase),
+        BlocProvider(create: (_) => WorkoutIdBloc()),
+        BlocProvider(create: (_) => SessionBloc(appDatabase)),
         BlocProvider(
           create: (context) => WorkoutBloc(appDatabase)..add(LoadWorkouts()),
         ),

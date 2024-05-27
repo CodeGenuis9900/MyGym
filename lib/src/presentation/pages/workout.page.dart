@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygym/src/presentation/pages/wourkout.detail.page.dart';
 
+import '../../bloc/event/workout.shared.id.event.dart';
 import '../../bloc/workout.bloc.dart';
 import '../../bloc/event/workout.event.dart';
 import '../../bloc/state/workout.state.dart';
+import '../../bloc/workout.shared.id.bloc.dart';
+import '../../data/repositories/database.dart';
 import '../model/add.workout.modal.dart';
 import '../card/workout.card.dart';
 
@@ -101,7 +105,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     return ListView.builder(
                       itemCount: workouts.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return WorkoutCard(
+                        return
+                          InkWell(
+                            onTap: () {
+                              context.read<WorkoutIdBloc>().add(SetWorkoutId(workouts[index].id));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => WorkoutDetailPage(workout: WorkoutData(id:workouts[index].id,name:workouts[index].name))),
+                          );
+                        },
+                        child:WorkoutCard(
                           id : workouts[index].id,
                           name: workouts[index].name,
                           numberOfExercises: 3,
@@ -109,7 +122,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           exercises7Days: 20,
                           exercises30Days: 100,
                           caloriesBurned7Days: 500,
-                        );
+                        ));
                       },
                     );
                   }
