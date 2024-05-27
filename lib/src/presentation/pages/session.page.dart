@@ -20,7 +20,8 @@ class SessionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => SessionBloc(context.read<AppDatabase>())..add(LoadSessionByWorkoutId(workoutId)),
+        create: (context) => SessionBloc(context.read<AppDatabase>())
+          ..add(LoadSessionByWorkoutId(workoutId)),
         child: BlocBuilder<SessionBloc, SessionState>(
           builder: (context, state) {
             if (state is SessionsLoading) {
@@ -38,8 +39,12 @@ class SessionPage extends StatelessWidget {
                       onTap: () {
                         // Handle session card tap
                       },
-                      title: sessions[index].startTime.toString(), // Corrected data display
-                      subtitle: sessions[index].endTime.toString(), // Corrected data display
+                      title: sessions[index]
+                          .startTimeSession
+                          .toString(), // Corrected data display
+                      subtitle: sessions[index]
+                          .endTimeSession
+                          .toString(), // Corrected data display
                     );
                   },
                 );
@@ -51,7 +56,8 @@ class SessionPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 30.0, right: 20.0, left: 20.0,top: 10),
+        padding: const EdgeInsets.only(
+            bottom: 30.0, right: 20.0, left: 20.0, top: 10),
         child: CustomButton(
           onPressed: () {
             Navigator.push(
