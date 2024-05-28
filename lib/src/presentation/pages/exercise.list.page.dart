@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mygym/src/presentation/pages/set.workout.page.dart';
 
 void main() {
   runApp(ExerciseListPage());
@@ -65,6 +66,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
     setState(() {
       exercises[index].repetitions += 5;
     });
+
   }
 
   @override
@@ -83,7 +85,12 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
                 children: [
                   IconButton(
                     icon: Icon(Icons.edit),
-                    onPressed: () => _editExercise(index),
+                    onPressed: () =>{
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SetPage()),
+                    )
+                    },
                   ),
                   IconButton(
                     icon: Icon(Icons.delete),

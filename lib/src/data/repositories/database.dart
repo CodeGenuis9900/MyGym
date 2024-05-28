@@ -8,6 +8,7 @@ import 'package:mygym/src/data/models/Exercise.item.dart';
 import 'package:mygym/src/data/models/Muscle.dart';
 import 'package:mygym/src/data/models/Session.dart';
 import 'package:mygym/src/data/models/Exercice.item.muscle.dart';
+import 'package:mygym/src/data/models/Set.workout.dart';
 import 'package:mygym/src/data/models/Workout.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
@@ -17,6 +18,7 @@ import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 part 'database.g.dart';
 
 @DriftDatabase(tables: [
+  SetWorkout,
   Session,
   Muscle,
   Workout,
