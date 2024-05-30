@@ -88,7 +88,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
                     onPressed: () =>{
                     Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SetPage()),
+                    MaterialPageRoute(builder: (context) => SetPage(exerciseId: index,)),
                     )
                     },
                   ),
