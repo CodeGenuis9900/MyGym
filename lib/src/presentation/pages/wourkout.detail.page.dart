@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mygym/src/presentation/pages/exercise.list.page.dart';
 import 'package:mygym/src/data/repositories/database.dart';
+import 'package:mygym/src/presentation/pages/muscle.page.dart';
 import 'package:mygym/src/presentation/pages/session.page.dart';
 
 import '../widgets/tab.bar.with.pages.widget.dart';
@@ -27,7 +28,7 @@ class _WorkoutDetailPageState extends State<WorkoutDetailPage> {
         pages: [
           OverviewPage(),
           ExerciseListPage(),
-          const Center(child: Text('Muscles')),
+          MusclesPage(),
           SessionPage()
         ],
       ),

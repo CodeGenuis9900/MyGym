@@ -13,7 +13,7 @@ class WelcomePage extends StatelessWidget {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                    'images/background_image.jpg'), // Replace 'background_image.jpg' with your image asset
+                    'images/welcome_page_image.png'), // Replace 'background_image.jpg' with your image asset
                 fit: BoxFit.cover,
               ),
             ),
@@ -23,15 +23,41 @@ class WelcomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  'Welcome dear athlete',
-                  style: TextStyle(
-                    fontSize: 40,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                Center(
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Lift. Train. Excel',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60, // Height of the carousel container
+                        child: PageView(
+                          children: [
+                            // Add your descriptions here
+                            _buildDescription('Take control of your workouts and maximize your gains with our intuitive gym planner app.'),
+                            _buildDescription('Plan, track, and achieve your fitness goals with our comprehensive gym planner app.'),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildDot(true), // Active dot
+                          _buildDot(false),
+                          _buildDot(false),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: () {
                     Navigator.pop(context);
@@ -53,6 +79,31 @@ class WelcomePage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDescription(String text) {
+    return Center(
+      child: Text(
+        textAlign: TextAlign.center,
+        text,
+        style: TextStyle(
+          fontSize: 20,
+          color: Colors.black87,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDot(bool isActive) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      height: 10,
+      width: 10,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isActive ? Colors.white : Colors.black87.withOpacity(0.5),
       ),
     );
   }

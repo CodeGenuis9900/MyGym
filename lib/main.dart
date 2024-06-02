@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sidebar Menu',
+      title: 'Menu',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme: GoogleFonts.robotoCondensedTextTheme(

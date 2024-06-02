@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mygym/src/presentation/pages/workout.details.page.dart';
+import 'package:mygym/src/presentation/pages/side.bar.dart';
 
 class MyHomePage extends StatelessWidget {
   static const String HELLO = 'hello';
@@ -10,60 +11,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('My gym'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Sidebar Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/home');
-              },
-            ),
-            ListTile(
-              title: const Text('Page 1'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/page1');
-              },
-            ),
-            ListTile(
-              title: const Text('Page 2'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/page2');
-              },
-            ),
-            ListTile(
-              title: const Text('Workout'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/workout');
-              },
-            ),
-            ListTile(
-              title: const Text('Add exercise'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/add-exercise');
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: CustomDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
