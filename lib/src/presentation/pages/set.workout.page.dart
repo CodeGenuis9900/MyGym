@@ -25,7 +25,7 @@ class _SetPageState extends State<SetPage> {
   }
 
   void _addNewSet() {
-    context.read<SetBloc>().add(AddSet(widget.exerciseId, 20, 20, sets.length + 1, 'Exercise'));
+    context.read<SetBloc>().add(AddSet(widget.exerciseId, 20, 20, 1, 'Exercise'));
   }
 
   @override
@@ -33,6 +33,12 @@ class _SetPageState extends State<SetPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Workout Sets'),
+        actions: [
+          CustomButton(
+            onPressed: _addNewSet,
+            text: 'New Set',
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -44,7 +50,7 @@ class _SetPageState extends State<SetPage> {
                   if (state is SetsLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is SetsLoaded) {
-                    final sets = state.sessions;
+                    final sets = state.setsOfAWorkout;
                     if (sets.isEmpty) {
                       return const Center(child: Text('No sets found'));
                     } else {
@@ -92,10 +98,7 @@ class _SetPageState extends State<SetPage> {
                 },
               ),
             ),
-            CustomButton(
-              onPressed: _addNewSet,
-              text: 'New Set',
-            ),
+
           ],
         ),
       ),

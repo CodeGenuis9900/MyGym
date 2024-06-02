@@ -4,6 +4,7 @@ import 'package:mygym/src/data/repositories/database.dart';
 import 'package:mygym/src/presentation/pages/session.page.dart';
 
 import '../widgets/tab.bar.with.pages.widget.dart';
+import 'overview.page.dart';
 
 class WorkoutDetailPage extends StatefulWidget {
   final WorkoutData workout;
@@ -24,7 +25,7 @@ class _WorkoutDetailPageState extends State<WorkoutDetailPage> {
       body: TabBarWithPages(
         tabNames: const ['Overview', 'Exercises', 'Muscles', 'Sessions'],
         pages: [
-          const Center(child: Text('Overview')),
+          OverviewPage(),
           ExerciseListPage(),
           const Center(child: Text('Muscles')),
           SessionPage()
