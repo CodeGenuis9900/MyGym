@@ -17,7 +17,6 @@ class AddExercisePage extends StatefulWidget {
 
 class _AddExercisePageState extends State<AddExercisePage> {
   final _formKey = GlobalKey<FormState>();
-  String? _selectedTitle;
   int? _points;
   int? _repetitions;
   ExerciseItemData? exerciseItemData;
@@ -128,11 +127,11 @@ class _AddExercisePageState extends State<AddExercisePage> {
     print(
         'Selected Exercise ID: $_selectedExerciseId, Points: $_points, Repetitions: $_repetitions');
     try {
-      /*final workoutId =
-          (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;*/
+      final workoutId =
+          (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
       context
           .read<ExerciseBloc>()
-          .add(AddExercise(1, _selectedExerciseId ?? 0));
+          .add(AddExercise(workoutId, _selectedExerciseId ?? 0));
       ToastManager.show(
         context,
         title: 'Success',

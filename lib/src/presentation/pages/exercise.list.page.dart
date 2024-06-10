@@ -6,7 +6,11 @@ import 'package:mygym/src/bloc/state/exercise.state.dart';
 import 'package:mygym/src/bloc/state/workout.shared.id.state.dart';
 import 'package:mygym/src/bloc/workout.shared.id.bloc.dart';
 import 'package:mygym/src/data/repositories/database.dart';
-import 'package:mygym/src/presentation/pages/set.workout.page.dart';
+import 'package:mygym/src/presentation/card/exercise.card.dart';
+import 'package:mygym/src/presentation/pages/add.exercise.page.dart';
+import 'package:mygym/src/presentation/widgets/custom.button.dart';
+
+import '../../utils/app.colors.dart';
 
 class ExerciseItem {
   final String id;
@@ -67,31 +71,50 @@ class _ExerciseListPageState extends State<ExerciseListPage> {
     final workoutId =
         (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
     return Scaffold(
-        body: BlocProvider(
-      create: (context) => ExerciseBloc(context.read<AppDatabase>())
-        ..add(LoadExerciseByWorkoutId(workoutId)),
-      child:
-          BlocBuilder<ExerciseBloc, ExerciseState>(builder: (context, state) {
-        if (state is ExerciseLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is ExerciseLoaded) {
-          final sessions = state.exercises;
-          if (sessions.isEmpty) {
-            return const Center(child: Text('No session found'));
+      body: BlocProvider(
+        create: (context) => ExerciseBloc(context.read<AppDatabase>())
+          ..add(LoadExerciseByWorkoutId(workoutId)),
+        child:
+            BlocBuilder<ExerciseBloc, ExerciseState>(builder: (context, state) {
+          if (state is ExerciseLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ExerciseLoaded) {
+            final sessions = state.exercises;
+            if (sessions.isEmpty) {
+              return const Center(child: Text('No session found'));
+            } else {
+              return ListView.builder(
+                itemCount: sessions.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ExerciseCard(
+                    exerciseItem: exercises[index].exerciseItem.label,
+                    onTap: () {},
+                  );
+                },
+              );
+            }
           } else {
-            return ListView.builder(
-              itemCount: sessions.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Center(
-                  child: Text("hhh"),
-                );
-              },
-            );
+            return const Center(child: Text('Something went wrong'));
           }
-        } else {
-          return const Center(child: Text('Something went wrong'));
-        }
-      }),
-    ));
+        }),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(
+            bottom: 30.0, right: 20.0, left: 20.0, top: 10),
+        child: CustomButton(
+          onPressed: () async {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddExercisePage(),
+              ),
+            );
+          },
+          text: 'Add exercise',
+          outlined: false,
+          color: AppColors.blueV0,
+        ),
+      ),
+    );
   }
 }

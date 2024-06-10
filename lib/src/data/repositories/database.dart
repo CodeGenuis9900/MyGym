@@ -70,6 +70,9 @@ class AppDatabase extends _$AppDatabase {
         .get();
   }
 
+  Future<List<ExerciseItemData>> get allExerciseItems =>
+      select(exerciseItem).get();
+
   // Insert initial data
   Future<void> insertInitialMuscles(Batch batch) async {
     List<Map<String, dynamic>> initialMuscles = [
