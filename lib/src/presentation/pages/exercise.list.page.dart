@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygym/src/bloc/event/exercise.event.dart';
+import 'package:mygym/src/bloc/exercise.bloc.dart';
+import 'package:mygym/src/bloc/state/exercise.state.dart';
+import 'package:mygym/src/bloc/state/workout.shared.id.state.dart';
+import 'package:mygym/src/bloc/workout.shared.id.bloc.dart';
+import 'package:mygym/src/data/repositories/database.dart';
 import 'package:mygym/src/presentation/pages/set.workout.page.dart';
-
-void main() {
-  runApp(ExerciseListPage());
-}
 
 class ExerciseItem {
   final String id;
@@ -23,21 +26,12 @@ class Exercise {
       required this.repetitions});
 }
 
-class ExerciseListPage extends StatelessWidget {
+class ExerciseListPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ExerciseListScreen(),
-    );
-  }
+  _ExerciseListPageState createState() => _ExerciseListPageState();
 }
 
-class ExerciseListScreen extends StatefulWidget {
-  @override
-  _ExerciseListScreenState createState() => _ExerciseListScreenState();
-}
-
-class _ExerciseListScreenState extends State<ExerciseListScreen> {
+class _ExerciseListPageState extends State<ExerciseListPage> {
   List<Exercise> exercises = [
     Exercise(
       exerciseItem: ExerciseItem(id: '1', label: 'Push Ups'),
@@ -66,42 +60,38 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
     setState(() {
       exercises[index].repetitions += 5;
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
+    final workoutId =
+        (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
     return Scaffold(
-      body: ListView.builder(
-        itemCount: exercises.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Text(exercises[index].exerciseItem.label),
-              subtitle: Text(
-                  'Points: ${exercises[index].points}, Repetitions: ${exercises[index].repetitions}'),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () =>{
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SetPage(exerciseId: index,)),
-                    )
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () => _deleteExercise(index),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
+        body: BlocProvider(
+      create: (context) => ExerciseBloc(context.read<AppDatabase>())
+        ..add(LoadExerciseByWorkoutId(workoutId)),
+      child:
+          BlocBuilder<ExerciseBloc, ExerciseState>(builder: (context, state) {
+        if (state is ExerciseLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is ExerciseLoaded) {
+          final sessions = state.exercises;
+          if (sessions.isEmpty) {
+            return const Center(child: Text('No session found'));
+          } else {
+            return ListView.builder(
+              itemCount: sessions.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Center(
+                  child: Text("hhh"),
+                );
+              },
+            );
+          }
+        } else {
+          return const Center(child: Text('Something went wrong'));
+        }
+      }),
+    ));
   }
 }

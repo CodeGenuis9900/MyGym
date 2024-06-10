@@ -11,7 +11,6 @@ import '../widgets/custom.button.dart';
 import '../widgets/toast.widget.dart';
 
 class AddSessionPage extends StatefulWidget {
-
   const AddSessionPage({super.key});
 
   @override
@@ -19,7 +18,6 @@ class AddSessionPage extends StatefulWidget {
 }
 
 class _AddSessionPageState extends State<AddSessionPage> {
-
   late DateTime _selectedDay;
   late TimeOfDay _startTime;
   late TimeOfDay _endTime;
@@ -38,7 +36,8 @@ class _AddSessionPageState extends State<AddSessionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final workoutId = (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
+    final workoutId =
+        (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Session'),
@@ -113,16 +112,17 @@ class _AddSessionPageState extends State<AddSessionPage> {
         padding: const EdgeInsets.only(bottom: 30.0, right: 20.0, left: 20.0),
         child: CustomButton(
           onPressed: () async {
-            final startDateTime = _combineDateWithTime(_selectedDay, _startTime);
+            final startDateTime =
+                _combineDateWithTime(_selectedDay, _startTime);
             final endDateTime = _combineDateWithTime(_selectedDay, _endTime);
-            try{
-               context.read<SessionBloc>().add(
-                AddSession(
-                  workoutId,
-                  startDateTime,
-                  endDateTime,
-                ),
-              );
+            try {
+              context.read<SessionBloc>().add(
+                    AddSession(
+                      workoutId,
+                      startDateTime,
+                      endDateTime,
+                    ),
+                  );
 
               ToastManager.show(
                 context,
@@ -136,11 +136,10 @@ class _AddSessionPageState extends State<AddSessionPage> {
               ToastManager.show(
                 context,
                 title: 'Error',
-                description: 'An error occurred' ,
+                description: 'An error occurred',
                 status: ToastStatus.error,
               );
             }
-            // Return to the previous screen
           },
           text: "Save",
           outlined: false,

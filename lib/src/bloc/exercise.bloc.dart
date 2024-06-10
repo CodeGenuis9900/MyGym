@@ -25,8 +25,6 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
       AddExercise event, Emitter<ExerciseState> emit) async {
     try {
       await appDatabase.addExercise(ExerciseCompanion.insert(
-          // repetition: event.repetitions,
-          // points: event.points,
           workoutId: dr.Value(event.workoutId),
           exerciseItemId: dr.Value(event.exerciseItemId)));
       add(LoadExerciseByWorkoutId(event.workoutId));

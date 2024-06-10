@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygym/src/bloc/event/exercise.event.dart';
+import 'package:mygym/src/bloc/exercise.bloc.dart';
+import 'package:mygym/src/data/repositories/database.dart';
+
+import '../../bloc/state/workout.shared.id.state.dart';
+import '../../bloc/workout.shared.id.bloc.dart';
+import '../widgets/toast.widget.dart';
 
 class AddExercisePage extends StatefulWidget {
   const AddExercisePage({super.key});
@@ -12,6 +20,9 @@ class _AddExercisePageState extends State<AddExercisePage> {
   String? _selectedTitle;
   int? _points;
   int? _repetitions;
+  ExerciseItemData? exerciseItemData;
+  int? exerciseItemId;
+  int? _selectedExerciseId;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +32,12 @@ class _AddExercisePageState extends State<AddExercisePage> {
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue, // Set the background color to blue
+              backgroundColor: Colors.blue,
             ),
-            onPressed: _saveForm, // Call _saveForm when pressed
+            onPressed: _saveForm,
             child: const Text(
               'Save',
-              style:
-                  TextStyle(color: Colors.white), // Set the text color to white
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -39,25 +49,30 @@ class _AddExercisePageState extends State<AddExercisePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              DropdownButtonFormField<String>(
+              DropdownButtonFormField<ExerciseItemData>(
                 decoration: const InputDecoration(
                   labelText: 'Title',
                 ),
-                items: <String>['Exercise 1', 'Exercise 2', 'Exercise 3']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
+                items: <ExerciseItemData>[
+                  const ExerciseItemData(id: 1, label: 'Exercise 1'),
+                  const ExerciseItemData(id: 2, label: 'Exercise 2'),
+                  const ExerciseItemData(id: 3, label: 'Exercise 3')
+                ].map((ExerciseItemData value) {
+                  return DropdownMenuItem<ExerciseItemData>(
                     value: value,
-                    child: Text(value),
+                    child: Text(value.label),
                   );
                 }).toList(),
-                onChanged: (String? newValue) {
+                onChanged: (ExerciseItemData? newValue) {
                   setState(() {
-                    _selectedTitle = newValue;
+                    _selectedExerciseId = newValue?.id;
                   });
                 },
                 validator: (value) =>
                     value == null ? 'Please select a title' : null,
               ),
+              if (_selectedExerciseId != null)
+                Text('Selected Exercise ID: $_selectedExerciseId'),
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Points',
@@ -111,6 +126,26 @@ class _AddExercisePageState extends State<AddExercisePage> {
 
   void _saveExercise() {
     print(
-        'Title: $_selectedTitle, Points: $_points, Repetitions: $_repetitions');
+        'Selected Exercise ID: $_selectedExerciseId, Points: $_points, Repetitions: $_repetitions');
+    try {
+      /*final workoutId =
+          (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;*/
+      context
+          .read<ExerciseBloc>()
+          .add(AddExercise(1, _selectedExerciseId ?? 0));
+      ToastManager.show(
+        context,
+        title: 'Success',
+        description: 'Exercise added successfully',
+        status: ToastStatus.success,
+      );
+    } catch (_) {
+      ToastManager.show(
+        context,
+        title: 'Error',
+        description: 'An error occurred',
+        status: ToastStatus.error,
+      );
+    }
   }
 }

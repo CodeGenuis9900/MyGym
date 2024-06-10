@@ -31,8 +31,10 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
             padding: const EdgeInsets.only(right: 20.0),
             child: InkWell(
               onTap: () {
-                try{
-                  context.read<WorkoutBloc>().add(AddWorkout(nameController.text));
+                try {
+                  context
+                      .read<WorkoutBloc>()
+                      .add(AddWorkout(nameController.text));
                   ToastManager.show(
                     context,
                     title: 'Success',
@@ -51,7 +53,8 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
                 }
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 20.0),
                 decoration: BoxDecoration(
                   color: Colors.blue, // Button color
                   borderRadius: BorderRadius.circular(10.0),
@@ -78,8 +81,8 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: TextFormField(
                 controller: nameController,
-                decoration: const InputDecoration(labelText: 'Workout Name',
-                  border: InputBorder.none),
+                decoration: const InputDecoration(
+                    labelText: 'Workout Name', border: InputBorder.none),
               ),
             ),
             const SizedBox(height: 16.0),
