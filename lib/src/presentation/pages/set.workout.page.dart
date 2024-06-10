@@ -7,6 +7,8 @@ import 'package:mygym/src/bloc/set.bloc.dart';
 import 'package:mygym/src/bloc/state/set.state.dart';
 import 'package:mygym/src/bloc/event/set.event.dart';
 
+import '../widgets/Advanced.dropdown.dart';
+
 class SetPage extends StatefulWidget {
   final int exerciseId;
 
@@ -44,6 +46,27 @@ class _SetPageState extends State<SetPage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: SearchableDropdown(
+                  items: const [
+                    'Apple',
+                    'Banana',
+                    'Cherry',
+                    'Date',
+                    'Elderberry',
+                    'Fig',
+                    'Grape',
+                    'Honeydew',
+                  ],
+                  hint: 'Select a fruit',
+                  onChanged: (value) {
+                    print('Selected: $value');
+                  },
+                ),
+              ),
+            ),
             Expanded(
               child: BlocBuilder<SetBloc, SetState>(
                 builder: (context, state) {
