@@ -8,6 +8,7 @@ import '../../bloc/workout.shared.id.bloc.dart';
 import '../../utils/app.colors.dart';
 import '../../bloc/session.bloc.dart';
 import '../widgets/custom.button.dart';
+import '../widgets/rounded.input.dart';
 import '../widgets/toast.widget.dart';
 
 class AddSessionPage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _AddSessionPageState extends State<AddSessionPage> {
   late DateTime _selectedDay;
   late TimeOfDay _startTime;
   late TimeOfDay _endTime;
+  late String _sessionName;
 
   @override
   void initState() {
@@ -28,16 +30,27 @@ class _AddSessionPageState extends State<AddSessionPage> {
     _selectedDay = DateTime.now();
     _startTime = TimeOfDay.now();
     _endTime = TimeOfDay.now();
+
+    // Initialize session name
+    final workoutId = (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
+    _sessionName = 'Session'; // Default session name
   }
 
   DateTime _combineDateWithTime(DateTime date, TimeOfDay time) {
     return DateTime(date.year, date.month, date.day, time.hour, time.minute);
   }
-
+  String? _validateInput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field cannot be empty';
+    }
+    if (value.length < 3) {
+      return 'Minimum 3 characters required';
+    }
+    return null;
+  }
   @override
   Widget build(BuildContext context) {
-    final workoutId =
-        (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
+    final workoutId = (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Session'),
@@ -46,6 +59,28 @@ class _AddSessionPageState extends State<AddSessionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                "Session Name :",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: CustomInputField(
+                controller: TextEditingController(text: _sessionName),
+                labelText: 'Enter session name',
+                leftIcon: Icons.fitness_center,
+                onChanged:(value) {
+                  setState(() {
+                    _sessionName = value;
+                  });
+                },
+                validator:_validateInput
+              ),
+            ),
             const Padding(
               padding: EdgeInsets.all(10.0),
               child: Text(
@@ -105,6 +140,7 @@ class _AddSessionPageState extends State<AddSessionPage> {
                 ),
               ),
             ),
+
           ],
         ),
       ),
@@ -113,16 +149,17 @@ class _AddSessionPageState extends State<AddSessionPage> {
         child: CustomButton(
           onPressed: () async {
             final startDateTime =
-                _combineDateWithTime(_selectedDay, _startTime);
+            _combineDateWithTime(_selectedDay, _startTime);
             final endDateTime = _combineDateWithTime(_selectedDay, _endTime);
             try {
               context.read<SessionBloc>().add(
-                    AddSession(
-                      workoutId,
-                      startDateTime,
-                      endDateTime,
-                    ),
-                  );
+                AddSession(
+                  workoutId,
+                  startDateTime,
+                  endDateTime,
+                  _sessionName // Pass the session name
+                ),
+              );
 
               ToastManager.show(
                 context,

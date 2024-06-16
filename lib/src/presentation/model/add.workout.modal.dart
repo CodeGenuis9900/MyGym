@@ -5,6 +5,7 @@ import 'package:mygym/src/presentation/widgets/rounded.input.dart';
 import '../../bloc/event/workout.event.dart';
 import '../../bloc/workout.bloc.dart';
 import '../widgets/custom.button.dart';
+import '../widgets/toast.widget.dart';
 
 
 class AddWorkoutModal extends StatefulWidget {
@@ -22,7 +23,15 @@ class _AddWorkoutModalState extends State<AddWorkoutModal> {
     nameController = TextEditingController();
     super.initState();
   }
-
+  String? _validateInput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field cannot be empty';
+    }
+    if (value.length < 3) {
+      return 'Minimum 3 characters required';
+    }
+    return null;
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,11 +55,11 @@ class _AddWorkoutModalState extends State<AddWorkoutModal> {
               ),
               const SizedBox(height: 16.0),
                 CustomInputField(
-                controller: nameController,
-                labelText: 'Workout Name',
-                leftIcon: Icons.accessibility_sharp,
-
-              ),
+                    controller: nameController,
+                    labelText: 'Workout Name',
+                    leftIcon: Icons.fitness_center,
+                    validator: _validateInput
+                ),
               /*TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(labelText: 'Workout Name'),
@@ -58,8 +67,24 @@ class _AddWorkoutModalState extends State<AddWorkoutModal> {
               const SizedBox(height: 16.0),
               CustomButton(
                 onPressed: () {
-                  context.read<WorkoutBloc>().add(AddWorkout(nameController.text));
-                  Navigator.pop(context);
+                  try{
+                    context.read<WorkoutBloc>().add(AddWorkout(nameController.text));
+                    ToastManager.show(
+                      context,
+                      title: 'Success',
+                      description: 'Operation completed successfully',
+                      status: ToastStatus.success,
+                    );
+                    Navigator.pop(context);
+                  }catch(_){
+                    ToastManager.show(
+                      context,
+                      title: 'Error',
+                      description: 'An error occurred',
+                      status: ToastStatus.error,
+                    );
+                  }
+
                 },
                 text: 'Save',
                 outlined: false,// Custom border radius

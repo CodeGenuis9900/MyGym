@@ -15,3 +15,22 @@
 //     return WorkoutCompanion.insert(workout);
 //   }
 // }
+import 'package:drift/drift.dart';
+import 'package:mygym/src/data/models/workout.dart';
+import 'package:mygym/src/data/repositories/database.dart';
+
+class WorkoutRepository {
+  final AppDatabase db;
+
+  WorkoutRepository(this.db);
+
+  Future<List<WorkoutData>> getAllWorkouts() => db.select(db.workout).get();
+
+  Future<int> addWorkout(WorkoutCompanion entry) {
+    return db.into(db.workout).insert(entry);
+  }
+
+  Future<List<WorkoutData>> searchWorkoutsByName(String query) {
+    return (db.select(db.workout)..where((t) => t.name.contains(query))).get();
+  }
+}

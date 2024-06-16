@@ -917,6 +917,15 @@ class $SessionTable extends Session with TableInfo<$SessionTable, SessionData> {
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameSessionMeta =
+      const VerificationMeta('nameSession');
+  @override
+  late final GeneratedColumn<String> nameSession = GeneratedColumn<String>(
+      'name_session', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 50),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   static const VerificationMeta _workoutIdMeta =
       const VerificationMeta('workoutId');
   @override
@@ -939,7 +948,8 @@ class $SessionTable extends Session with TableInfo<$SessionTable, SessionData> {
       'end_time', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, workoutId, startTime, endTime];
+  List<GeneratedColumn> get $columns =>
+      [id, nameSession, workoutId, startTime, endTime];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -952,6 +962,14 @@ class $SessionTable extends Session with TableInfo<$SessionTable, SessionData> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name_session')) {
+      context.handle(
+          _nameSessionMeta,
+          nameSession.isAcceptableOrUnknown(
+              data['name_session']!, _nameSessionMeta));
+    } else if (isInserting) {
+      context.missing(_nameSessionMeta);
     }
     if (data.containsKey('workout_id')) {
       context.handle(_workoutIdMeta,
@@ -980,6 +998,8 @@ class $SessionTable extends Session with TableInfo<$SessionTable, SessionData> {
     return SessionData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      nameSession: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name_session'])!,
       workoutId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}workout_id']),
       startTime: attachedDatabase.typeMapping
@@ -997,11 +1017,13 @@ class $SessionTable extends Session with TableInfo<$SessionTable, SessionData> {
 
 class SessionData extends DataClass implements Insertable<SessionData> {
   final int id;
+  final String nameSession;
   final int? workoutId;
   final DateTime startTime;
   final DateTime endTime;
   const SessionData(
       {required this.id,
+      required this.nameSession,
       this.workoutId,
       required this.startTime,
       required this.endTime});
@@ -1009,6 +1031,7 @@ class SessionData extends DataClass implements Insertable<SessionData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    map['name_session'] = Variable<String>(nameSession);
     if (!nullToAbsent || workoutId != null) {
       map['workout_id'] = Variable<int>(workoutId);
     }
@@ -1020,6 +1043,7 @@ class SessionData extends DataClass implements Insertable<SessionData> {
   SessionCompanion toCompanion(bool nullToAbsent) {
     return SessionCompanion(
       id: Value(id),
+      nameSession: Value(nameSession),
       workoutId: workoutId == null && nullToAbsent
           ? const Value.absent()
           : Value(workoutId),
@@ -1033,6 +1057,7 @@ class SessionData extends DataClass implements Insertable<SessionData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SessionData(
       id: serializer.fromJson<int>(json['id']),
+      nameSession: serializer.fromJson<String>(json['nameSession']),
       workoutId: serializer.fromJson<int?>(json['workoutId']),
       startTime: serializer.fromJson<DateTime>(json['startTime']),
       endTime: serializer.fromJson<DateTime>(json['endTime']),
@@ -1043,6 +1068,7 @@ class SessionData extends DataClass implements Insertable<SessionData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'nameSession': serializer.toJson<String>(nameSession),
       'workoutId': serializer.toJson<int?>(workoutId),
       'startTime': serializer.toJson<DateTime>(startTime),
       'endTime': serializer.toJson<DateTime>(endTime),
@@ -1051,11 +1077,13 @@ class SessionData extends DataClass implements Insertable<SessionData> {
 
   SessionData copyWith(
           {int? id,
+          String? nameSession,
           Value<int?> workoutId = const Value.absent(),
           DateTime? startTime,
           DateTime? endTime}) =>
       SessionData(
         id: id ?? this.id,
+        nameSession: nameSession ?? this.nameSession,
         workoutId: workoutId.present ? workoutId.value : this.workoutId,
         startTime: startTime ?? this.startTime,
         endTime: endTime ?? this.endTime,
@@ -1064,6 +1092,7 @@ class SessionData extends DataClass implements Insertable<SessionData> {
   String toString() {
     return (StringBuffer('SessionData(')
           ..write('id: $id, ')
+          ..write('nameSession: $nameSession, ')
           ..write('workoutId: $workoutId, ')
           ..write('startTime: $startTime, ')
           ..write('endTime: $endTime')
@@ -1072,12 +1101,14 @@ class SessionData extends DataClass implements Insertable<SessionData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, workoutId, startTime, endTime);
+  int get hashCode =>
+      Object.hash(id, nameSession, workoutId, startTime, endTime);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is SessionData &&
           other.id == this.id &&
+          other.nameSession == this.nameSession &&
           other.workoutId == this.workoutId &&
           other.startTime == this.startTime &&
           other.endTime == this.endTime);
@@ -1085,30 +1116,36 @@ class SessionData extends DataClass implements Insertable<SessionData> {
 
 class SessionCompanion extends UpdateCompanion<SessionData> {
   final Value<int> id;
+  final Value<String> nameSession;
   final Value<int?> workoutId;
   final Value<DateTime> startTime;
   final Value<DateTime> endTime;
   const SessionCompanion({
     this.id = const Value.absent(),
+    this.nameSession = const Value.absent(),
     this.workoutId = const Value.absent(),
     this.startTime = const Value.absent(),
     this.endTime = const Value.absent(),
   });
   SessionCompanion.insert({
     this.id = const Value.absent(),
+    required String nameSession,
     this.workoutId = const Value.absent(),
     required DateTime startTime,
     required DateTime endTime,
-  })  : startTime = Value(startTime),
+  })  : nameSession = Value(nameSession),
+        startTime = Value(startTime),
         endTime = Value(endTime);
   static Insertable<SessionData> custom({
     Expression<int>? id,
+    Expression<String>? nameSession,
     Expression<int>? workoutId,
     Expression<DateTime>? startTime,
     Expression<DateTime>? endTime,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (nameSession != null) 'name_session': nameSession,
       if (workoutId != null) 'workout_id': workoutId,
       if (startTime != null) 'start_time': startTime,
       if (endTime != null) 'end_time': endTime,
@@ -1117,11 +1154,13 @@ class SessionCompanion extends UpdateCompanion<SessionData> {
 
   SessionCompanion copyWith(
       {Value<int>? id,
+      Value<String>? nameSession,
       Value<int?>? workoutId,
       Value<DateTime>? startTime,
       Value<DateTime>? endTime}) {
     return SessionCompanion(
       id: id ?? this.id,
+      nameSession: nameSession ?? this.nameSession,
       workoutId: workoutId ?? this.workoutId,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
@@ -1133,6 +1172,9 @@ class SessionCompanion extends UpdateCompanion<SessionData> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (nameSession.present) {
+      map['name_session'] = Variable<String>(nameSession.value);
     }
     if (workoutId.present) {
       map['workout_id'] = Variable<int>(workoutId.value);
@@ -1150,6 +1192,7 @@ class SessionCompanion extends UpdateCompanion<SessionData> {
   String toString() {
     return (StringBuffer('SessionCompanion(')
           ..write('id: $id, ')
+          ..write('nameSession: $nameSession, ')
           ..write('workoutId: $workoutId, ')
           ..write('startTime: $startTime, ')
           ..write('endTime: $endTime')
@@ -2177,12 +2220,14 @@ class $$SetWorkoutTableOrderingComposer
 
 typedef $$SessionTableInsertCompanionBuilder = SessionCompanion Function({
   Value<int> id,
+  required String nameSession,
   Value<int?> workoutId,
   required DateTime startTime,
   required DateTime endTime,
 });
 typedef $$SessionTableUpdateCompanionBuilder = SessionCompanion Function({
   Value<int> id,
+  Value<String> nameSession,
   Value<int?> workoutId,
   Value<DateTime> startTime,
   Value<DateTime> endTime,
@@ -2208,24 +2253,28 @@ class $$SessionTableTableManager extends RootTableManager<
           getChildManagerBuilder: (p) => $$SessionTableProcessedTableManager(p),
           getUpdateCompanionBuilder: ({
             Value<int> id = const Value.absent(),
+            Value<String> nameSession = const Value.absent(),
             Value<int?> workoutId = const Value.absent(),
             Value<DateTime> startTime = const Value.absent(),
             Value<DateTime> endTime = const Value.absent(),
           }) =>
               SessionCompanion(
             id: id,
+            nameSession: nameSession,
             workoutId: workoutId,
             startTime: startTime,
             endTime: endTime,
           ),
           getInsertCompanionBuilder: ({
             Value<int> id = const Value.absent(),
+            required String nameSession,
             Value<int?> workoutId = const Value.absent(),
             required DateTime startTime,
             required DateTime endTime,
           }) =>
               SessionCompanion.insert(
             id: id,
+            nameSession: nameSession,
             workoutId: workoutId,
             startTime: startTime,
             endTime: endTime,
@@ -2250,6 +2299,11 @@ class $$SessionTableFilterComposer
   $$SessionTableFilterComposer(super.$state);
   ColumnFilters<int> get id => $state.composableBuilder(
       column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get nameSession => $state.composableBuilder(
+      column: $state.table.nameSession,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -2281,6 +2335,11 @@ class $$SessionTableOrderingComposer
   $$SessionTableOrderingComposer(super.$state);
   ColumnOrderings<int> get id => $state.composableBuilder(
       column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get nameSession => $state.composableBuilder(
+      column: $state.table.nameSession,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
