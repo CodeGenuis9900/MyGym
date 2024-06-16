@@ -8,9 +8,8 @@ import '../../bloc/event/workout.event.dart';
 import '../../bloc/state/workout.state.dart';
 import '../../bloc/workout.shared.id.bloc.dart';
 import '../../data/repositories/database.dart';
-import '../model/add.workout.modal.dart';
+import '../modal/add.workout.modal.dart';
 import '../card/workout.card.dart';
-
 
 class WorkoutPage extends StatefulWidget {
   @override
@@ -24,6 +23,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     searchController = TextEditingController();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +48,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   ),
                 ],
               ),
-              child:  Padding(
+              child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextField(
                   controller: searchController,
@@ -105,24 +105,33 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     return ListView.builder(
                       itemCount: workouts.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return
-                          InkWell(
+                        return InkWell(
                             onTap: () {
-                              context.read<WorkoutIdBloc>().add(SetWorkoutId(workouts[index].id));
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => WorkoutDetailPage(workout: WorkoutData(id:workouts[index].id,name:workouts[index].name))),
-                          );
-                        },
-                        child:WorkoutCard(
-                          id : workouts[index].id,
-                          name: workouts[index].name,
-                          numberOfExercises: 3,
-                          muscleColors: const [Colors.red, Colors.blue, Colors.green],
-                          exercises7Days: 20,
-                          exercises30Days: 100,
-                          caloriesBurned7Days: 500,
-                        ));
+                              context
+                                  .read<WorkoutIdBloc>()
+                                  .add(SetWorkoutId(workouts[index].id));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WorkoutDetailPage(
+                                        workout: WorkoutData(
+                                            id: workouts[index].id,
+                                            name: workouts[index].name))),
+                              );
+                            },
+                            child: WorkoutCard(
+                              id: workouts[index].id,
+                              name: workouts[index].name,
+                              numberOfExercises: 3,
+                              muscleColors: const [
+                                Colors.red,
+                                Colors.blue,
+                                Colors.green
+                              ],
+                              exercises7Days: 20,
+                              exercises30Days: 100,
+                              caloriesBurned7Days: 500,
+                            ));
                       },
                     );
                   }

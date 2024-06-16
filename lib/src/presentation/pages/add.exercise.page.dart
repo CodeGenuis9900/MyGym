@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygym/src/bloc/exercise.item.bloc.dart';
+import 'package:mygym/src/bloc/event/exercise.item.event.dart';
+import 'package:mygym/src/bloc/state/exercise.item.state.dart';
 import 'package:mygym/src/bloc/event/exercise.event.dart';
 import 'package:mygym/src/bloc/exercise.bloc.dart';
+import 'package:mygym/src/bloc/state/workout.shared.id.state.dart';
 import 'package:mygym/src/data/repositories/database.dart';
-
-import '../../bloc/state/workout.shared.id.state.dart';
 import '../../bloc/workout.shared.id.bloc.dart';
 import '../widgets/toast.widget.dart';
 
@@ -17,15 +19,13 @@ class AddExercisePage extends StatefulWidget {
 
 class _AddExercisePageState extends State<AddExercisePage> {
   final _formKey = GlobalKey<FormState>();
-  String? _selectedTitle;
   int? _points;
   int? _repetitions;
-  ExerciseItemData? exerciseItemData;
-  int? exerciseItemId;
   int? _selectedExerciseId;
 
   @override
   Widget build(BuildContext context) {
+    context.read<ExerciseItemBloc>().add(LoadExerciseItems());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Exercise'),
@@ -49,66 +49,36 @@ class _AddExercisePageState extends State<AddExercisePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              DropdownButtonFormField<ExerciseItemData>(
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                ),
-                items: <ExerciseItemData>[
-                  const ExerciseItemData(id: 1, label: 'Exercise 1'),
-                  const ExerciseItemData(id: 2, label: 'Exercise 2'),
-                  const ExerciseItemData(id: 3, label: 'Exercise 3')
-                ].map((ExerciseItemData value) {
-                  return DropdownMenuItem<ExerciseItemData>(
-                    value: value,
-                    child: Text(value.label),
-                  );
-                }).toList(),
-                onChanged: (ExerciseItemData? newValue) {
-                  setState(() {
-                    _selectedExerciseId = newValue?.id;
-                  });
+              BlocBuilder<ExerciseItemBloc, ExerciseItemState>(
+                builder: (context, state) {
+                  if (state is ExerciseItemLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is ExerciseItemLoaded) {
+                    return DropdownButtonFormField<ExerciseItemData>(
+                      decoration: const InputDecoration(
+                        labelText: 'Title',
+                      ),
+                      items: state.exerciseItems.map((ExerciseItemData value) {
+                        return DropdownMenuItem<ExerciseItemData>(
+                          value: value,
+                          child: Text(value.label),
+                        );
+                      }).toList(),
+                      onChanged: (ExerciseItemData? newValue) {
+                        setState(() {
+                          _selectedExerciseId = newValue?.id;
+                        });
+                      },
+                      validator: (value) =>
+                          value == null ? 'Please select a title' : null,
+                    );
+                  } else {
+                    return const Text('Failed to load exercises');
+                  }
                 },
-                validator: (value) =>
-                    value == null ? 'Please select a title' : null,
               ),
               if (_selectedExerciseId != null)
                 Text('Selected Exercise ID: $_selectedExerciseId'),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Points',
-                ),
-                keyboardType: TextInputType.number,
-                onSaved: (String? value) {
-                  _points = int.tryParse(value!);
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter points';
-                  }
-                  if (int.tryParse(value) == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Repetitions',
-                ),
-                keyboardType: TextInputType.number,
-                onSaved: (String? value) {
-                  _repetitions = int.tryParse(value!);
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter repetitions';
-                  }
-                  if (int.tryParse(value) == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-              ),
               const SizedBox(height: 20),
             ],
           ),
@@ -128,11 +98,11 @@ class _AddExercisePageState extends State<AddExercisePage> {
     print(
         'Selected Exercise ID: $_selectedExerciseId, Points: $_points, Repetitions: $_repetitions');
     try {
-      /*final workoutId =
-          (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;*/
+      final workoutId =
+          (context.read<WorkoutIdBloc>().state as WorkoutIdSelected).workoutId;
       context
           .read<ExerciseBloc>()
-          .add(AddExercise(1, _selectedExerciseId ?? 0));
+          .add(AddExercise(workoutId, _selectedExerciseId ?? 0));
       ToastManager.show(
         context,
         title: 'Success',

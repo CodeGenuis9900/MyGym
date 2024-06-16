@@ -70,6 +70,9 @@ class AppDatabase extends _$AppDatabase {
         .get();
   }
 
+  Future<List<ExerciseItemData>> get allExerciseItems =>
+      select(exerciseItem).get();
+
   // Insert initial data
   Future<void> insertInitialMuscles(Batch batch) async {
     List<Map<String, dynamic>> initialMuscles = [
@@ -101,12 +104,28 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 
+  Future<void> insertInitialExerciseItems(Batch batch) async {
+    List<Map<String, dynamic>> initialExerciseItems = [
+      {'label': 'Push ups'}, // Tomato
+      {'label': 'Pull ups'}, // SteelBlue
+      {'label': 'Sit ups'}, // SeaGreen
+    ];
+    for (var initialExerciseItem in initialExerciseItems) {
+      batch.insert(
+          exerciseItem,
+          ExerciseItemCompanion(
+            label: Value(initialExerciseItem['label']),
+          ));
+    }
+  }
+
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (Migrator m) async {
           await m.createAll();
           await batch((batch) async {
             await insertInitialMuscles(batch);
+            await insertInitialExerciseItems(batch);
           });
         },
       );

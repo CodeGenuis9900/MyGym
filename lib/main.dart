@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mygym/src/bloc/event/session.event.dart';
 import 'package:mygym/src/bloc/exercise.bloc.dart';
+import 'package:mygym/src/bloc/exercise.item.bloc.dart';
 import 'package:mygym/src/bloc/session.bloc.dart';
 import 'package:mygym/src/bloc/set.bloc.dart';
 import 'package:mygym/src/bloc/workout.bloc.dart';
@@ -33,6 +33,7 @@ void main() async {
           create: (context) => SetBloc(appDatabase),
         ),
         BlocProvider(create: (_) => ExerciseBloc(appDatabase)),
+        BlocProvider(create: (_) => ExerciseItemBloc(appDatabase)),
       ],
       child: MyApp(),
     ),
