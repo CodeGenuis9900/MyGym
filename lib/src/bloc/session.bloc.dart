@@ -22,13 +22,15 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       emit(SessionsError());
     }
   }
+
   Future<void> _onAddSession(AddSession event, Emitter<SessionState> emit) async {
     try {
       await appDatabase.addSession(
         SessionCompanion.insert(
           workoutId: dr.Value(event.workoutId),
           startTime: event.startTime,
-          endTime: event.endTime
+          endTime: event.endTime,
+          nameSession: event.nameSession,
         ),
       );
 
@@ -37,6 +39,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       emit(SessionsError());
     }
   }
+
   Future<void> _onLoadSessionsByWorkoutId(LoadSessionByWorkoutId event, Emitter<SessionState> emit) async {
     try {
       final sessions = await appDatabase.getSessionsByWorkoutId(event.workoutId);
@@ -45,6 +48,5 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
       emit(SessionsError());
     }
   }
-
-
 }
+

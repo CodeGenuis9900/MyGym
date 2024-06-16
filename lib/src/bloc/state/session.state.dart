@@ -1,4 +1,3 @@
-
 import '../../data/repositories/database.dart';
 
 abstract class SessionState {}
