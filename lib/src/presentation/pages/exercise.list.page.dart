@@ -7,7 +7,7 @@ import 'package:mygym/src/bloc/state/workout.shared.id.state.dart';
 import 'package:mygym/src/bloc/workout.shared.id.bloc.dart';
 import 'package:mygym/src/data/repositories/database.dart';
 import 'package:mygym/src/presentation/card/exercise.card.dart';
-import 'package:mygym/src/presentation/pages/add.exercise.page.dart';
+import 'package:mygym/src/presentation/modal/add.exercise.modal.dart';
 import 'package:mygym/src/presentation/widgets/custom.button.dart';
 
 import '../../utils/app.colors.dart';
@@ -103,11 +103,13 @@ class _ExerciseListPageState extends State<ExerciseListPage> {
             bottom: 30.0, right: 20.0, left: 20.0, top: 10),
         child: CustomButton(
           onPressed: () async {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const AddExercisePage(),
-              ),
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const AlertDialog(
+                  content: AddExerciseModal(),
+                );
+              },
             );
           },
           text: 'Add exercise',
