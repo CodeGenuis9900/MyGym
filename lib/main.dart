@@ -32,7 +32,9 @@ void main() async {
         BlocProvider<SetBloc>(
           create: (context) => SetBloc(appDatabase),
         ),
-        BlocProvider(create: (_) => ExerciseBloc(appDatabase)),
+        BlocProvider(
+            create: (context) =>
+                ExerciseBloc(appDatabase, context.read<SetBloc>())),
         BlocProvider(create: (_) => ExerciseItemBloc(appDatabase)),
       ],
       child: MyApp(),

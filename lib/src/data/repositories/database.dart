@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 
-// These additional imports are necessary to open the sqlite3 database
 import 'dart:io';
 import 'package:drift/native.dart';
 import 'package:mygym/src/data/models/Exercise.dart';
